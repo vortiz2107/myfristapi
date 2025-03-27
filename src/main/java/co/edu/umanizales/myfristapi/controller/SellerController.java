@@ -1,5 +1,6 @@
 package co.edu.umanizales.myfristapi.controller;
 
+import co.edu.umanizales.myfristapi.model.Location;
 import co.edu.umanizales.myfristapi.model.Seller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,16 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 public class SellerController {
     @GetMapping
-    public String getSeller() {
-        return null;
+    public Seller getSeller() {
 
-        Seller Ronnie = new Seller("10252924", "Ronnie", "Jaramillo","Manizales", 32, 'M');
-        Seller Valentina = new Seller("30315827", "Valentina", "Manrique", "Manizales", 22, "F");
-        Seller Sofia = new Seller("1007234852", "Sofia", "Suarez", "Manizales", 28, "F");
-        Seller Daniel = new Seller("1002654730", "Daniel", "Morales", "Manizales", 40, "M");
-        Seller Juan = new Seller("10876345", "Juan", "Buitrago", "Manizales", 22, "M");
+        Location Manizales = new Location("17001", "Manizales");
 
-        return "vendedor";
+        Seller Ronnie = new Seller("10252924", "Ronnie", "Jaramillo", Manizales, (byte)32, 'M');
+        Seller Valentina = new Seller("30315827", "Valentina", "Manrique", Manizales,(byte) 22, 'F');
+        Seller Sofia = new Seller("1007234852", "Sofia", "Suarez", Manizales, (byte)28, 'F');
+        Seller Daniel = new Seller("1002654730", "Daniel", "Morales", Manizales,(byte)40, 'M');
+        Seller Juan = new Seller("10876345", "Juan", "Buitrago", Manizales, (byte) 22, 'M');
+
+        return Valentina;
 
     }
 }

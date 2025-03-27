@@ -10,8 +10,10 @@ import lombok.Setter;
 
 public class Sale {
     private String identification;
+    private String name;
     private String product;
     private String date;
+
 
 
 }

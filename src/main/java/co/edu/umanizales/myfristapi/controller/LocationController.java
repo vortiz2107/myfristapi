@@ -11,10 +11,6 @@ public class LocationController {
     @GetMapping
     public String getLocation(){
 
-        Location Manizales = mew Location()
-
-
-
         return "Manizales";
     }
 }

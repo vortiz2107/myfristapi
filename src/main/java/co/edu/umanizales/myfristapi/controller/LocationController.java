@@ -41,6 +41,11 @@ public class LocationController {
         return locationService.getLocationByInicialLetters();
     }
 
+    @GetMapping(path = "/stateCode")
+    public List<Location> getLocationByStateCode() {
+        return locationService.getLocationByStateCode();
+    }
+
     @GetMapping(path = "/states")
     public List<Location> getLocationsByStates() {
         return locationService.getStates();

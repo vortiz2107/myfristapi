@@ -75,12 +75,12 @@ public class LocationService {
         return null;
     }
 
-    public List<Location> getLocationByStateCode(String stateCode) {
-        List<Location> statesCode = new ArrayList<>();
+    public List<Location> getLocationByStateCode() {
+        List<Location> stateCode = new ArrayList<>();
         for (Location location : locations) {
             if (location.getCode().equals(stateCode)) {
-                statesCode.add(location);
-                return statesCode;
+                stateCode.add(location);
+                return stateCode;
             }
         }
         return null;

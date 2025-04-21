@@ -75,6 +75,17 @@ public class LocationService {
         return null;
     }
 
+    public List<Location> getLocationByStateCode(String stateCode) {
+        List<Location> statesCode = new ArrayList<>();
+        for (Location location : locations) {
+            if (location.getCode().equals(stateCode)) {
+                statesCode.add(location);
+                return statesCode;
+            }
+        }
+        return null;
+    }
+
 
     public List<Location> getStates() {
         List<Location> states = new ArrayList<>();
@@ -87,7 +98,7 @@ public class LocationService {
     }
 
 
-    public List<Location> getLocationByCapitals() {
+    public List<Location> getCapitals() {
         List<Location> capitals = new ArrayList<>();
         for (Location location : locations) {
             if (location.getCode().equals(capitals)) {

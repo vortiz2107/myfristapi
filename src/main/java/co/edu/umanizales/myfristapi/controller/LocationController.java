@@ -47,12 +47,12 @@ public class LocationController {
     }
 
     @GetMapping(path = "/states")
-    public List<Location> getLocationsByStates(@PathVariable String states) {
+    public List<Location> getStates() {
         return locationService.getStates();
     }
 
     @GetMapping(path = "/capitals")
-    public List<Location> getLocationByCapitals(@PathVariable String capitals) {
+    public List<Location> getCapitals() {
         return locationService.getCapitals();
     }
 

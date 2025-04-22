@@ -64,27 +64,25 @@ public class LocationService {
         return null;
     }
 
-   public List<Location> getLocationByInitialLetters(String initials) {
+    public List<Location> getLocationByInitialLetters(String initials) {
         List<Location> initial = new ArrayList<>();
         for (Location location : locations) {
             if (location.getDescription().startsWith(initials)) {
                 initial.add(location);
-                return initial;
-
             }
         }
-        return null;
-   }
+        return initial;
+    }
+    
 
     public List<Location> getLocationByStateCode(String code) {
         List<Location> states = new ArrayList<>();
         for (Location location : locations) {
             if (location.getCode().equals(code)) {
                 states.add(location);
-                return states;
             }
         }
-        return null;
+        return states;
     }
 
     public List<Location> getStates() {
@@ -101,13 +99,13 @@ public class LocationService {
     public List<Location> getCapitals() {
         List<Location> capitals = new ArrayList<>();
         for (Location location : locations) {
-            if (location.getCode().endsWith("01")) {
+            if (location.getCode().endsWith("01") && location.getCode().length()==5) {
                 capitals.add(location);
             }
         }
         return capitals;
     }
-}
 
+}
 
 

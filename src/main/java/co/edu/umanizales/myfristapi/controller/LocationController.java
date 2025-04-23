@@ -24,14 +24,13 @@ public class LocationController {
         return locationService.getLocations();
 
     }
-
     @GetMapping(path = "/{code}")
     public Location getLocationByCode(@PathVariable String code) {
         return locationService.getLocationByCode(code);
     }
 
-    @GetMapping(path = "/{name}")
-    public Location getLocationByName(@PathVariable String name) {
+    @GetMapping(path = "name/{name}")
+    public List<Location> getLocationByName(@PathVariable String name) {
         return locationService.getLocationByName(name);
 
     }
@@ -41,9 +40,9 @@ public class LocationController {
         return locationService.getLocationByInitialLetters(initials);
     }
 
-    @GetMapping(path = "/stateCode/{code}")
-    public List<Location> getLocationByStateCode(@PathVariable String code) {
-        return locationService.getLocationByStateCode(code);
+    @GetMapping("/statecode/{stateCode}")
+    public List<Location> getLocationsByStateCode(@PathVariable String stateCode) {
+        return locationService.getLocationsByStateCode(stateCode);
     }
 
     @GetMapping(path = "/states")
@@ -54,6 +53,12 @@ public class LocationController {
     @GetMapping(path = "/capitals")
     public List<Location> getCapitals() {
         return locationService.getCapitals();
+    }
+
+    @GetMapping(path = "/state/{code}")
+    public Location getStateByCode(@PathVariable String code) {
+        return locationService.getStateByCode(code);
+
     }
 
 }

@@ -9,11 +9,11 @@ import lombok.Setter;
 @AllArgsConstructor
 
 public class Seller {
-    private String identification;
     private String name;
     private String lastName;
-    private Location city;
     private byte age;
+    private String identification;
+    private Location city;
     private char gender;
 
 }

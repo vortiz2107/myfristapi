@@ -58,8 +58,11 @@ public class LocationController {
     @GetMapping(path = "/state/{code}")
     public Location getStateByCode(@PathVariable String code) {
         return locationService.getStateByCode(code);
-
     }
 
+    @GetMapping(path = "/amountLetters/{length}")
+    public List<Location> getAmountLettersByName(@PathVariable String length) {
+        return locationService.getLocationByAmount(Integer.parseInt(length));
+    }
 }
 

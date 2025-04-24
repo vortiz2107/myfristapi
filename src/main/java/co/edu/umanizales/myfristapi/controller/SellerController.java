@@ -2,26 +2,36 @@ package co.edu.umanizales.myfristapi.controller;
 
 import co.edu.umanizales.myfristapi.model.Location;
 import co.edu.umanizales.myfristapi.model.Seller;
+import co.edu.umanizales.myfristapi.service.LocationService;
+import co.edu.umanizales.myfristapi.service.SellerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/seller")
 
 public class SellerController {
+
+    @Autowired
+    private SellerService SellerService;
+    @Autowired
+    private SellerService sellerService;
+
     @GetMapping
-    public Seller getSeller() {
+    public List<Seller> getSeller() {
 
-        Location Manizales = new Location("17001", "Manizales");
+        return SellerService.getSellers();
 
-        Seller Ronnie = new Seller("10252924", "Ronnie", "Jaramillo", Manizales, (byte)32, 'M');
-        Seller Valentina = new Seller("30315827", "Valentina", "Manrique", Manizales,(byte) 22, 'F');
-        Seller Sofia = new Seller("1007234852", "Sofia", "Suarez", Manizales, (byte)28, 'F');
-        Seller Daniel = new Seller("1002654730", "Daniel", "Morales", Manizales,(byte)40, 'M');
-        Seller Juan = new Seller("10876345", "Juan", "Buitrago", Manizales, (byte) 22, 'M');
+    }
 
-        return Valentina;
+    @GetMapping(path = "name/{name}")
+    public List<Seller> getSellerByName(@PathVariable String name) {
+        return sellerService.getSellerByName(name);
 
     }
 }

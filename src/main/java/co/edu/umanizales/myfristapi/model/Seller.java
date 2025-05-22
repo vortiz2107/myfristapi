@@ -15,5 +15,5 @@ public class Seller {
     private String identification;
     private Location city;
     private char gender;
-
 }
+

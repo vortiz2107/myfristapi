@@ -1,8 +1,6 @@
 package co.edu.umanizales.myfristapi.controller;
 
-import co.edu.umanizales.myfristapi.model.Location;
 import co.edu.umanizales.myfristapi.model.Seller;
-import co.edu.umanizales.myfristapi.service.LocationService;
 import co.edu.umanizales.myfristapi.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,14 +16,11 @@ import java.util.List;
 public class SellerController {
 
     @Autowired
-    private SellerService SellerService;
-    @Autowired
     private SellerService sellerService;
 
     @GetMapping
-    public List<Seller> getSeller() {
-
-        return SellerService.getSellers();
+    public List<Seller> getSellers() {
+        return sellerService.getSellers();
 
     }
 

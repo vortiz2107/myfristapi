@@ -1,14 +1,14 @@
 package co.edu.umanizales.myfristapi.controller;
 
 
+import co.edu.umanizales.myfristapi.dto.ProductDTO;
 import co.edu.umanizales.myfristapi.model.*;
-import co.edu.umanizales.myfristapi.service.LocationService;
 import co.edu.umanizales.myfristapi.service.ParameterService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,19 +19,66 @@ public class ParameterController {
     @Autowired
     private ParameterService parameterService;
 
-    @RequestMapping(path = "/typedocuments")
+    @GetMapping(path = "/typedocuments")
     public List<Parameter> getTypeDocuments() {
         return parameterService.getParametersByType(1);
     }
 
-    @RequestMapping(path = "/typeproducts")
+    @GetMapping(path = "/typeproducts")
     public List<Parameter> getTypeProducts() {
         return parameterService.getParametersByType(2);
     }
 
-    @RequestMapping(path = "/products")
+    @GetMapping(path = "/products")
     public List<Parameter> getProducts() {
         return parameterService.getParametersByType(3);
     }
 
+    @PostMapping(path = "/product")
+    public String addProduct(@RequestBody ProductDTO product) {
+        TypeProduct type = parameterService.getTypeProductByCode(product.getCodeTypeProduct());
+        if (type == null) {
+            return "Type Product with code " + product.getCode() + " does not exist";
+        } else {
+            return parameterService.addProduct(
+                    new Product(product.getCode(), product.getDescription(),
+                            product.getPrice(), product.getStock(), type));
+        }
+
+    }
+
+    @PostMapping("/listproducts")
+    public String saveProducts(@RequestBody List<ProductDTO> productsDTO) {
+        List<Product> products = new ArrayList<>();
+        for (ProductDTO productDTO : productsDTO) {
+            TypeProduct type = parameterService.getTypeProductByCode(productDTO.getCodeTypeProduct());
+            if (type == null) {
+                return "Type Product with code " + productDTO.getCode() + " does not exist";
+            } else {
+                products.add(
+                        new Product(productDTO.getCode(), productDTO.getDescription(),
+                                productDTO.getPrice(), productDTO.getStock(), type));
+
+            }
+        }
+        return parameterService.addProducts(products);
+    }
+
+
+    @GetMapping(path = "/product/{code}")
+    public ResponseEntity<?> getProductByCode(@PathVariable String code) {
+        Product product = parameterService.getProductByCode(code);
+        if (product == null) {
+            return ResponseEntity.badRequest()
+                    .body("No se encontró el producto con el código: " + code);
+        }
+        return ResponseEntity.ok(List.of(product));
+    }
+
+
+
+    @GetMapping(path = "typedocument/{id}")
+    public Parameter getTypeDocumentBycode(@PathVariable String code) {
+        return parameterService.getTypeDocumentByCode(code);
+    }
 }

@@ -13,11 +13,11 @@ import java.util.Locale;
 @AllArgsConstructor
 
 public class Sale {
-    private Store store;
     private Seller seller;
-    private LocalDate dateSale;
+    private Store store;
     private int quantity;
-    private List products;
-
-
+    private List<ProductSale> products;
+    private LocalDate dateSale;
+    private double totalsale;
+    
 }

@@ -1,13 +1,10 @@
 package co.edu.umanizales.myfristapi.service;
 
-import co.edu.umanizales.myfristapi.model.Location;
-import co.edu.umanizales.myfristapi.model.Parameter;
 import co.edu.umanizales.myfristapi.model.Store;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,9 +21,10 @@ import java.util.List;
 @Getter
 public class StoreService {
 
+
     private List<Store> stores;
 
-    @Value("")
+    @Value("STORES.csv")
     private String storesFilename;
 
     @Autowired
@@ -42,7 +40,7 @@ public class StoreService {
             csvReader.skip(1);
             while ((line = csvReader.readNext()) != null) {
 
-                stores.add(new Store(line[1], line[2], line[3], locationService.getLocationByCode(line[4])));
+                stores.add(new Store(line[0], line[1], line[2], locationService.getLocationByCode(line[3])));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,4 +49,17 @@ public class StoreService {
             throw new RuntimeException(e);
         }
     }
+
+    public Store getStoreByCode(String code) {
+        for (Store store : stores) {
+            if (store.getCode().equals(code)) {
+                return store;
+            }
+        }
+        return null;
+    }
 }
+
+
+
+

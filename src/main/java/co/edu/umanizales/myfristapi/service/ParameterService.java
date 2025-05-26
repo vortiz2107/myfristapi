@@ -34,9 +34,7 @@ public class ParameterService {
         parameters.add(pcs);
         parameters.add(new TypeProduct("02", "Monitors"));
         parameters.add(new TypeProduct("03", "Memoirs"));
-        parameters.add(new TypeProduct("04","Mouses"));
-
-
+        parameters.add(new TypeProduct("04", "Mouses"));
 
 
     }
@@ -76,21 +74,20 @@ public class ParameterService {
 
     public String addProduct(Product product) {
         /// deberia validar que ya no exista
-        if( getProductByCode(product.getCode()) == null ) {
+        if (getProductByCode(product.getCode()) == null) {
             parameters.add(product);
             return "Product added";
-        }
-        else {
+        } else {
             return "Product already exists";
         }
 
     }
 
     public String addProducts(List<Product> products) {
-        for(Product p : products) {
-            String result =addProduct(p);
-            if(result.equals("Product already exists")) {
-                return "Product already exists "+ p.getCode();
+        for (Product p : products) {
+            String result = addProduct(p);
+            if (result.equals("Product already exists")) {
+                return "Product already exists " + p.getCode();
             }
         }
         return "Products addeds";
@@ -105,10 +102,19 @@ public class ParameterService {
         return null;
     }
 
-    public TypeDocument getTypeDocumentByCode (String code) {
+    public TypeDocument getTypeDocumentByCode(String code) {
         for (Parameter p : parameters) {
             if (p instanceof TypeDocument && p.getCode().equalsIgnoreCase(code)) {
                 return (TypeDocument) p;
+            }
+        }
+        return null;
+    }
+
+    public Product geProductByCode(String code) {
+        for (Parameter p : parameters) {
+            if (p instanceof Product && p.getCode().equalsIgnoreCase(code)) {
+                return (Product) p;
             }
         }
         return null;

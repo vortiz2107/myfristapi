@@ -47,7 +47,7 @@ public class SaleService {
             csvReader.skip(1);
             while ((line = csvReader.readNext()) != null) {
 
-                sales.add(new Sale (sellerService.getSellerByIdentification(line[0]),storeService.getStoreByCode(line[1]),Integer.parseInt(line[2]), line[3], LocalDate.parse(line[4]),Double.parseDouble(line[5])));
+                sales.add(new Sale (sellerService.getSellerByIdentification(line[0]),storeService.getStoreByCode(line[1]),Integer.parseInt(line[2]), parameterService.getProductByCode(line[3]), LocalDate(line[4]),Double.parseDouble(line[5])));
             }
         } catch (IOException e) {
             e.printStackTrace();

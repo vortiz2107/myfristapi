@@ -19,6 +19,7 @@ public class ParameterController {
     @Autowired
     private ParameterService parameterService;
 
+
     @GetMapping(path = "/typedocuments")
     public List<Parameter> getTypeDocuments() {
         return parameterService.getParametersByType(1);
@@ -47,6 +48,7 @@ public class ParameterController {
 
     }
 
+
     @PostMapping("/listproducts")
     public String saveProducts(@RequestBody List<ProductDTO> productsDTO) {
         List<Product> products = new ArrayList<>();
@@ -64,20 +66,13 @@ public class ParameterController {
         return parameterService.addProducts(products);
     }
 
-
-    @GetMapping(path = "/product/{code}")
-    public ResponseEntity<?> getProductByCode(@PathVariable String code) {
-        Product product = parameterService.getProductByCode(code);
-        if (product == null) {
-            return ResponseEntity.badRequest()
-                    .body("No se encontró el producto con el código: " + code);
-        }
-        return ResponseEntity.ok(List.of(product));
+    @GetMapping(path = "product/{code}")
+    public Parameter getProductBycode(@PathVariable String code) {
+        return parameterService.getProductByCode(code);
     }
 
 
-
-    @GetMapping(path = "typedocument/{id}")
+    @GetMapping(path = "typedocument/{code}")
     public Parameter getTypeDocumentBycode(@PathVariable String code) {
         return parameterService.getTypeDocumentByCode(code);
     }

@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Locale;
 
 @Getter
 @Setter
@@ -19,5 +18,4 @@ public class Sale {
     private List<ProductSale> products;
     private LocalDate dateSale;
     private double totalsale;
-    
 }

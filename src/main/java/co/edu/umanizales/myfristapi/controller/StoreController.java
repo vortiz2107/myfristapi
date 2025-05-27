@@ -1,9 +1,6 @@
 package co.edu.umanizales.myfristapi.controller;
 
-import co.edu.umanizales.myfristapi.model.Location;
-import co.edu.umanizales.myfristapi.model.Seller;
 import co.edu.umanizales.myfristapi.model.Store;
-import co.edu.umanizales.myfristapi.service.SellerService;
 import co.edu.umanizales.myfristapi.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

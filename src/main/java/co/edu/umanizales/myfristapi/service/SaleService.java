@@ -1,7 +1,7 @@
 package co.edu.umanizales.myfristapi.service;
 
-import co.edu.umanizales.myfristapi.model.Sale;
-import co.edu.umanizales.myfristapi.model.Store;
+import co.edu.umanizales.myfristapi.dto.SaleDTO;
+import co.edu.umanizales.myfristapi.model.*;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import jakarta.annotation.PostConstruct;
@@ -9,54 +9,104 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
-@Setter
+@Service
 public class SaleService {
-    private List<Sale> sales;
 
-    @Value("SALES.csv")
+
+    private final List<Sale> sales = new ArrayList<>();
+
+    @Value("${sales_filename}")
     private String salesFilename;
 
-    @Autowired
-    private StoreService storeService;
+    private final SellerService sellerService;
+    private final StoreService storeService;
+    private final ParameterService parameterService;
 
     @Autowired
-    private SellerService sellerService;
+    public SaleService(SellerService sellerService, StoreService storeService, ParameterService parameterService) {
+        this.sellerService = sellerService;
+        this.storeService = storeService;
+        this.parameterService = parameterService;
+    }
 
-    @Autowired
-    private ParameterService parameterService;
 
-
-    @PostConstruct
     public void readSalesFromCSV() throws IOException, URISyntaxException {
-        sales = new ArrayList<>();
-
+        sales.clear();
         Path pathFile = Paths.get(ClassLoader.getSystemResource(salesFilename).toURI());
+
         try (CSVReader csvReader = new CSVReader(new FileReader(pathFile.toString()))) {
             String[] line;
-            csvReader.skip(1);
-            while ((line = csvReader.readNext()) != null) {
+            csvReader.skip(1); //
 
-                sales.add(new Sale (sellerService.getSellerByIdentification(line[0]),storeService.getStoreByCode(line[1]),Integer.parseInt(line[2]), parameterService.getProductByCode(line[3]), LocalDate(line[4]),Double.parseDouble(line[5])));
+            while ((line = csvReader.readNext()) != null) {
+                if (line.length < 6) {
+                    System.out.println("Invalid line: " + Arrays.toString(line));
+                    continue;
+                }
+
+                String sellerId = line[0].trim();
+                String storeCode = line[1].trim();
+                int quantity = Integer.parseInt(line[2].trim());
+                String productCode = line[3].trim();
+                LocalDate dateSale = LocalDate.parse(line[4].trim());
+                double totalSale = Double.parseDouble(line[5].trim());
+
+                Seller seller = sellerService.getSellerByIdentification(sellerId);
+                Store store = storeService.getStoreByCode(storeCode);
+                Product product = parameterService.getProductByCode(productCode);
+
+                if (product == null) {
+                    System.out.println(" Product not found for code: " + productCode);
+                    continue;
+                }
+
+                List<ProductSale> productList = new ArrayList<>();
+                productList.add(new ProductSale(product, quantity, totalSale));
+
+                Sale sale = new Sale(seller, store, quantity, productList, dateSale, totalSale);
+                sales.add(sale);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
+
         } catch (CsvValidationException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("CSV validation error", e);
         }
     }
 
+    public List<Sale> getAllSales() {
+        return sales;
+    }
+
+    public List<Sale> getSalesBySeller(String identification) {
+        return sales.stream()
+                .filter(sale -> sale.getSeller() != null && sale.getSeller().getIdentification().equalsIgnoreCase(identification))
+                .toList();
+    }
+
+
+    public List<Sale> getSalesByStore(String code) {
+        return sales.stream()
+                .filter(sale -> sale.getStore() != null && sale.getStore().getCode().equalsIgnoreCase(code))
+                .toList();
+    }
+
+    public List<Sale> getSalesByDate(LocalDate date) {
+        return sales.stream()
+                .filter(sale -> sale.getDateSale() != null && sale.getDateSale().equals(date))
+                .toList();
+    }
 }
-
-

@@ -5,6 +5,7 @@ import co.edu.umanizales.myfristapi.dto.ProductDTO;
 import co.edu.umanizales.myfristapi.model.*;
 import co.edu.umanizales.myfristapi.service.ParameterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,11 +67,15 @@ public class ParameterController {
         return parameterService.addProducts(products);
     }
 
-    @GetMapping(path = "product/{code}")
-    public Parameter getProductBycode(@PathVariable String code) {
-        return parameterService.getProductByCode(code);
+    @GetMapping("product/{code}")
+    public ResponseEntity<?> getProductByCode(@PathVariable String code) {
+        Parameter product = parameterService.getProductByCode(code);
+        if (product == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No product found with code: " + code);
+        }
+        return ResponseEntity.ok(product);
     }
-
 
     @GetMapping(path = "typedocument/{code}")
     public Parameter getTypeDocumentBycode(@PathVariable String code) {

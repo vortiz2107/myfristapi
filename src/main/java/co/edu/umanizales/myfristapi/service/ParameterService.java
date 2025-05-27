@@ -93,6 +93,8 @@ public class ParameterService {
         return "Products addeds";
     }
 
+
+
     public TypeProduct getTypeProductByCode(String code) {
         for (Parameter p : parameters) {
             if (p instanceof TypeProduct && p.getCode().equalsIgnoreCase(code)) {
@@ -111,13 +113,4 @@ public class ParameterService {
         return null;
     }
 
-    public Product geProductByCode(String code) {
-        for (Parameter p : parameters) {
-            if (p instanceof Product && p.getCode().equalsIgnoreCase(code)) {
-                return (Product) p;
-            }
-        }
-        return null;
-    }
 }
-

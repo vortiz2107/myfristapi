@@ -1,7 +1,6 @@
 package co.edu.umanizales.myfristapi.controller;
 
 import co.edu.umanizales.myfristapi.model.Seller;
-import co.edu.umanizales.myfristapi.model.Store;
 import co.edu.umanizales.myfristapi.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +22,7 @@ public class SellerController {
     public List<Seller> getSellers() {
         return sellerService.getSellers();
     }
-    @GetMapping(path = "/{identification}")
+    @GetMapping(path = "id/{identification}")
     public Seller getSellerByIdentification(@PathVariable String identification) {
         return sellerService.getSellerByIdentification(identification);
     }

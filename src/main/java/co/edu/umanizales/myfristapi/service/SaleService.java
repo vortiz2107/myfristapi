@@ -92,21 +92,41 @@ public class SaleService {
     }
 
     public List<Sale> getSalesBySeller(String identification) {
-        return sales.stream()
-                .filter(sale -> sale.getSeller() != null && sale.getSeller().getIdentification().equalsIgnoreCase(identification))
-                .toList();
+        List<Sale> result = new ArrayList<>();
+
+        for (Sale sale : sales) {
+            if (sale.getSeller() != null &&
+                    sale.getSeller().getIdentification().equalsIgnoreCase(identification)) {
+                result.add(sale);
+            }
+        }
+
+        return result;
     }
 
 
     public List<Sale> getSalesByStore(String code) {
-        return sales.stream()
-                .filter(sale -> sale.getStore() != null && sale.getStore().getCode().equalsIgnoreCase(code))
-                .toList();
+        List<Sale> result = new ArrayList<>();
+
+        for (Sale sale : sales) {
+            if (sale.getStore() != null &&
+                    sale.getStore().getCode().equalsIgnoreCase(code)) {
+                result.add(sale);
+            }
+        }
+
+        return result;
     }
 
     public List<Sale> getSalesByDate(LocalDate date) {
-        return sales.stream()
-                .filter(sale -> sale.getDateSale() != null && sale.getDateSale().equals(date))
-                .toList();
+        List<Sale> result = new ArrayList<>();
+
+        for (Sale sale : sales) {
+            if (sale.getDateSale() != null && sale.getDateSale().equals(date)) {
+                result.add(sale);
+            }
+        }
+
+        return result;
     }
 }
